@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": ["DOM", "ESNext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,          // ✅ включает строгую проверку
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve"        // или "react-jsx" в новых версиях
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/components/Categories.jsx", "src/App.jsx", "src/pages/NotFound.jsx", "src/pages/Home.jsx"],
+  "exclude": ["node_modules"]
+}
