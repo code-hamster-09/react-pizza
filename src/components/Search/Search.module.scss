@@ -1,27 +1,40 @@
-.root{
+.root {
+  position: relative;
+  left: -120px;
+}
+
+.input {
   border: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 10px 15px;
-  outline: none;
-  max-width: 500px;
-  width: 100%;
+  padding: 12px 20px;
+  padding-left: 42px;
+  width: 400px;
   border-radius: 10px;
   font-size: 16px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  
-  &:focus{
-    border: 1px solid rgba(0, 0, 0, 0.5);
-  }
 
-  .input{
-    border: none;
-    width: 100%;
-    font-size: 1rem;
+  &:focus {
+    border: 1px solid rgba(0, 0, 0, 0.2);
   }
+}
 
-  .icon{
-    font-size: 20px;
-    opacity: 0.7;
+.icon {
+  width: 22px;
+  height: 22px;
+  opacity: 0.3;
+  position: absolute;
+  left: 14px;
+  top: 12px;
+}
+
+.clearIcon {
+  width: 18px;
+  height: 18px;
+  opacity: 0.3;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
   }
 }

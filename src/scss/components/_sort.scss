@@ -21,16 +21,6 @@
     }
   }
 
-  &__closed{
-    transform: rotate(180deg);
-    transition: 300ms ease-in-out;
-  }
-
-  &__opened{
-    transform: rotate(0deg);
-    transition: 300ms ease;
-  }
-
   &__popup {
     position: absolute;
     right: 0;
@@ -40,7 +30,7 @@
     border-radius: 10px;
     overflow: hidden;
     padding: 10px 0;
-    
+
     ul {
       overflow: hidden;
       li {

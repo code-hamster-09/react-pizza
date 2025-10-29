@@ -1,49 +1,53 @@
-import { FC, useEffect, useRef, useState } from "react";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { setSort } from "../redux/filter/slice";
+import { SortPropertyEnum, Sort as SortType } from "../redux/filter/types";
 
-type sortListItem = {
+type SortItem = {
   name: string;
-  sortProperty: string;
-};
-type SortProps = {
-  sort: sortListItem;
-  onChangeSort: any
+  sortProperty: SortPropertyEnum;
 };
 
-const Sort: FC<SortProps> = ({ sort, onChangeSort }) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+type SortPopupProps = {
+  value: SortType;
+};
 
-  const sortName: sortListItem[] = [
-    { name: "популярности (ASC)", sortProperty: "rating" },
-    { name: "популярности (DESC)", sortProperty: "-rating" },
-    { name: "цене (ASC)", sortProperty: "price" },
-    { name: "цене (DESC)", sortProperty: "-price" },
-    { name: "алфавиту (ASC)", sortProperty: "title" },
-    { name: "алфавиту (DESC)", sortProperty: "-title" },
-  ];
+export const sortList: SortItem[] = [
+  { name: "популярности (DESC)", sortProperty: SortPropertyEnum.RATING_DESC },
+  { name: "популярности (ASC)", sortProperty: SortPropertyEnum.RATING_ASC },
+  { name: "цене (DESC)", sortProperty: SortPropertyEnum.PRICE_DESC },
+  { name: "цене (ASC)", sortProperty: SortPropertyEnum.PRICE_ASC },
+  { name: "алфавиту (DESC)", sortProperty: SortPropertyEnum.TITLE_DESC },
+  { name: "алфавиту (ASC)", sortProperty: SortPropertyEnum.TITLE_ASC },
+];
 
-  const onClickSort = (obj: sortListItem) => {
-    onChangeSort(obj);
-    setIsOpen(false);
+export const Sort: React.FC<SortPopupProps> = React.memo(({ value }) => {
+  const dispatch = useDispatch();
+  const sortRef = React.useRef<HTMLDivElement>(null);
+
+  const [open, setOpen] = React.useState(false);
+
+  const onClickListItem = (obj: SortItem) => {
+    dispatch(setSort(obj));
+    setOpen(false);
   };
 
-  const sortRef = useRef<HTMLDivElement>(null!);
-
-  useEffect(() => {
-    const onclickOutside = (event: any) => {
-      if (!sortRef.current.contains(event.target)) {
-        setIsOpen(false);
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (sortRef.current && !event.composedPath().includes(sortRef.current)) {
+        setOpen(false);
       }
-      console.log(event);
     };
-    document.body.addEventListener("click", onclickOutside);
-    return () => document.body.removeEventListener("click", onclickOutside);
+
+    document.body.addEventListener("click", handleClickOutside);
+
+    return () => document.body.removeEventListener("click", handleClickOutside);
   }, []);
 
   return (
     <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
-          className={!isOpen ? "sort__closed" : "sort__opened"}
           width="10"
           height="6"
           viewBox="0 0 10 6"
@@ -56,29 +60,25 @@ const Sort: FC<SortProps> = ({ sort, onChangeSort }) => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setIsOpen(!isOpen)}>{sort.name}</span>
+        <span onClick={() => setOpen(!open)}>{value.name}</span>
       </div>
-      {isOpen && (
+      {open && (
         <div className="sort__popup">
           <ul>
-            {sortName.map((obj, i) => {
-              return (
-                <li
-                  onClick={() => onClickSort(obj)}
-                  key={i}
-                  className={
-                    sort.sortProperty === obj.sortProperty ? "active" : ""
-                  }
-                >
-                  {obj.name}
-                </li>
-              );
-            })}
+            {sortList.map((obj, i) => (
+              <li
+                key={i}
+                onClick={() => onClickListItem(obj)}
+                className={
+                  value.sortProperty === obj.sortProperty ? "active" : ""
+                }
+              >
+                {obj.name}
+              </li>
+            ))}
           </ul>
         </div>
       )}
     </div>
   );
-};
-
-export default Sort;
+});

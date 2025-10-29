@@ -4,15 +4,17 @@
   border-bottom: 1px solid $gray-line;
   padding: 40px 0;
 
-
   .container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    
-    @media(max-width: 645px){
+
+    @media (max-width: 645px) {
       flex-direction: column;
-      gap: 20px;
+
+      .header__cart {
+        margin-top: 20px;
+      }
     }
   }
 
@@ -33,9 +35,6 @@
 
     p {
       color: #7b7b7b;
-      @media(max-width: 460px){
-        display: none;
-      }
     }
   }
 }
